@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ComfyUI Artist | неон ⇢ подземелья (кривой переход)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(112deg, 
+                #020105 0%, 
+                #0b0a25 18%, 
+                #1c0e1a 32%,
+                #2d1a0f 48%,
+                #4a2e1a 70%,
+                #6b442a 88%,
+                #8b5e2c 100%);
+            background-attachment: fixed;
+            color: #e6e0d8;
+            font-family: system-ui, 'Segoe UI', 'Roboto', 'Georgia', serif;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(35deg, 
+                rgba(0,242,255,0.03) 0px, 
+                rgba(0,242,255,0.03) 40px,
+                rgba(255,45,149,0.02) 40px,
+                rgba(255,45,149,0.02) 80px,
+                rgba(255,180,70,0.04) 80px,
+                rgba(255,180,70,0.04) 120px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .navbar {
+            padding: 1rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            border-bottom: 1px solid rgba(0, 242, 255, 0.4);
+            background: rgba(3, 0, 5, 0.5);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 20;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00f2ff, #ff2d95, #ffb347);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.3rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: #ccddf8;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #00f2ff;
+            text-shadow: 0 0 6px cyan;
+        }
+
+        .hero {
+            padding: 2rem 0 1rem 0;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff, #00f2ff, #ff2d95);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            margin-bottom: 1.2rem;
+            color: #c0d0f0;
+            border-left: 3px solid #00f2ff;
+            padding-left: 1rem;
+        }
+
+        .team-header {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            border-radius: 2rem;
+            padding: 0.8rem 1.2rem;
+            margin: 1rem 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            border: 1px solid rgba(0,242,255,0.3);
+        }
+
+        .lead-specialist {
+            font-weight: 600;
+            background: linear-gradient(95deg, #00f2ff20, #ff2d9520);
+            padding: 0.3rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            border-left: 2px solid #00f2ff;
+        }
+
+        .partner-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .partner-chip {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255, 100, 150, 0.5);
+            border-radius: 2rem;
+            padding: 0.2rem 0.8rem;
+            font-size: 0.8rem;
+            transition: 0.2s;
+        }
+
+        .partner-chip:hover {
+            border-color: #ffb347;
+            background: rgba(255, 180, 70, 0.2);
+        }
+
+        .partner-chip a {
+            color: #ffd966;
+            text-decoration: none;
+        }
+
+        .partner-chip a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-group {
+            margin: 1.5rem 0 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid #00f2ff;
+            padding: 0.6rem 1.4rem;
+            border-radius: 2rem;
+            color: #b0f0ff;
+            font-weight: 500;
+            text-decoration: none;
+            margin-right: 0.8rem;
+            margin-bottom: 0.6rem;
+            transition: 0.2s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(95deg, #00f2ff, #0088ff);
+            border: none;
+            color: #010105;
+            font-weight: bold;
+            box-shadow: 0 0 8px cyan;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 16px cyan;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            background: rgba(0,242,255,0.2);
+        }
+
+        section {
+            padding: 2.5rem 0;
+            border-top: 1px solid rgba(255,180,70,0.3);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            display: inline-block;
+            background: linear-gradient(135deg, #fff0c0, #ffb347);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            border-left: 4px solid #ffb347;
+            padding-left: 0.8rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .gallery-item {
+            aspect-ratio: 1/1;
+            background: #1e1a14;
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid #b87c3a;
+            transition: 0.2s;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.02);
+            border-color: #ffb347;
+            box-shadow: 0 0 12px #dd882e;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .video-card {
+            background: rgba(30, 20, 12, 0.6);
+            backdrop-filter: blur(4px);
+            border-radius: 1rem;
+            border: 1px solid #b87c3a;
+            padding: 0.8rem;
+        }
+
+        .video-card video {
+            width: 100%;
+            border-radius: 0.7rem;
+        }
+
+        .music-player {
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(8px);
+            border-radius: 1.5rem;
+            padding: 1.2rem;
+            border: 1px solid #e0a76a;
+        }
+
+        .track-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+        }
+
+        .track {
+            background: rgba(255,215,160,0.1);
+            border-radius: 3rem;
+            padding: 0.5rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .play-btn {
+            background: #c6893b;
+            border: none;
+            padding: 0.3rem 1rem;
+            border-radius: 2rem;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #globalAudio {
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .now-playing {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: #f3cd8b;
+            text-align: center;
+        }
+
+        .partners-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: flex-start;
+            margin-top: 1rem;
+        }
+
+        .partner-card {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid #b87c3a;
+            border-radius: 1.5rem;
+            padding: 0.6rem 1.2rem;
+            text-align: center;
+            min-width: 140px;
+            backdrop-filter: blur(4px);
+        }
+
+        .partner-card .partner-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .partner-card .partner-name a {
+            color: #ffd966;
+            text-decoration: none;
+        }
+
+        .partner-card .partner-name a:hover {
+            text-decoration: underline;
+        }
+
+        .partner-role {
+            font-size: 0.7rem;
+            color: #e2bc7c;
+            margin-bottom: 0.2rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 1.5rem 0;
+        }
+
+        .social-links a {
+            background: #2d241a;
+            padding: 0.4rem 1rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            color: #ecd99b;
+            font-size: 0.85rem;
+            border: 1px solid #a67c4a;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            border-top: 1px solid #a77746;
+            color: #c0a070;
+            font-size: 0.75rem;
+        }
+
+        @media (max-width: 700px) {
+            .hero h1 { font-size: 2rem; }
+            .team-header { flex-direction: column; align-items: stretch; text-align: center; }
+            .partner-chips { justify-content: center; }
+            .nav-links { justify-content: center; }
+            .btn-group { text-align: center; }
+            .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="logo">✨ ComfyUI Artist ✨</div>
+            <div class="nav-links">
+                <a href="#gallery">Работы</a>
+                <a href="#video">Видео</a>
+                <a href="#music">Музыка</a>
+                <a href="#contact">Контакты</a>
+            </div>
+        </nav>
+
+        <div class="hero">
+            <h1>ComfyUI Artist</h1>
+            <div class="tagline">генеративное искусство · AI · фото | видео | музыка</div>
+            
+            <div class="team-header" id="teamHeader"></div>
+
+            <div class="btn-group">
+                <a href="#gallery" class="btn btn-primary">Смотреть работы</a>
+                <a href="#contact" class="btn">Связаться</a>
+            </div>
+        </div>
+
+        <section id="gallery">
+            <h2>🖼️ Изображения</h2>
+            <div class="gallery-grid" id="imageGallery"></div>
+            <p style="font-size:0.8rem; margin-top:0.5rem; opacity:0.7;">* замените ссылки в массиве images на свои генерации</p>
+        </section>
+
+        <section id="video">
+            <h2>🎬 Видео (скоро)</h2>
+            <div class="video-grid" id="videoGrid"></div>
+            <p style="margin-top:0.8rem; opacity:0.7;">После покупки видеокарты добавлю диффузионные 4K-ролики</p>
+        </section>
+
+        <section id="music">
+            <h2>🎧 Генеративная музыка</h2>
+            <div class="music-player">
+                <div class="track-list" id="trackList"></div>
+                <audio id="globalAudio" controls preload="metadata"><source src="" type="audio/mpeg"></audio>
+                <div class="now-playing" id="nowPlaying"></div>
+            </div>
+        </section>
+
+        <section id="partners">
+            <h2>⚔️ Наши союзники</h2>
+            <div class="partners-grid" id="partnersGrid"></div>
+        </section>
+
+        <section id="contact">
+            <h2>📬 Контакты</h2>
+            <div class="social-links">
+                <a href="#">Instagram</a>
+                <a href="#">Telegram</a>
+                <a href="#">GitHub</a>
+                <a href="#">Email</a>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2026 ComfyUI Artist — неон и древние заклинания. Партнёры: Евлоев А.А., Иса Бард, Адаман Друид, Азраил Чёрный Рыцарь, Микаил Рыцарь-по-праву.</p>
+    </footer>
+
+    <script>
+        // Данные
+        const specialist = { name: "Евлоев А.А.", role: "Ведущий специалист", tg: null };
+        const partnersList = [
+            { name: "Иса Бард", role: "Мастер звука", tg: "prazdniknl" },
+            { name: "Адаман Друид", role: "Хранитель лесов", tg: "AdamM666" },
+            { name: "Азраил Чёрный Рыцарь", role: "Страж миров", tg: "AdamM666" },
+            { name: "Микаил Рыцарь-по-праву", role: "Защитник кода", tg: "MicaelMich" }
+        ];
+
+        // Заполняем teamHeader (шапка)
+        const teamHeader = document.getElementById("teamHeader");
+        if (teamHeader) {
+            const leadDiv = document.createElement("div");
+            leadDiv.className = "lead-specialist";
+            leadDiv.textContent = `⭐ ${specialist.name}`;
+            teamHeader.appendChild(leadDiv);
+            
+            const chipsDiv = document.createElement("div");
+            chipsDiv.className = "partner-chips";
+            partnersList.forEach(p => {
+                const chip = document.createElement("div");
+                chip.className = "partner-chip";
+                if (p.tg) {
+                    const link = document.createElement("a");
+                    link.href = `https://t.me/${p.tg}`;
+                    link.target = "_blank";
+                    link.textContent = p.name;
+                    chip.appendChild(link);
+                } else {
+                    chip.textContent = p.name;
+                }
+                chipsDiv.appendChild(chip);
+            });
+            teamHeader.appendChild(chipsDiv);
+        }
+
+        // Заполняем секцию "Наши союзники" карточками
+        const partnersGrid = document.getElementById("partnersGrid");
+        if (partnersGrid) {
+            const allForCards = [specialist, ...partnersList];
+            allForCards.forEach(p => {
+                const card = document.createElement("div");
+                card.className = "partner-card";
+                const nameDiv = document.createElement("div");
+                nameDiv.className = "partner-name";
+                if (p.tg) {
+                    const link = document.createElement("a");
+                    link.href = `https://t.me/${p.tg}`;
+                    link.target = "_blank";
+                    link.textContent = p.name;
+                    nameDiv.appendChild(link);
+                } else {
+                    nameDiv.textContent = p.name;
+                }
+                const roleDiv = document.createElement("div");
+                roleDiv.className = "partner-role";
+                roleDiv.textContent = p.role;
+                card.appendChild(nameDiv);
+                card.appendChild(roleDiv);
+                partnersGrid.appendChild(card);
+            });
+        }
+
+        // Галерея (пример)
+        const images = [
+            "https://picsum.photos/id/1015/400/400",
+            "https://picsum.photos/id/104/400/400",
+            "https://picsum.photos/id/169/400/400",
+            "https://picsum.photos/id/155/400/400",
+            "https://picsum.photos/id/29/400/400",
+            "https://picsum.photos/id/96/400/400"
+        ];
+        const gallery = document.getElementById("imageGallery");
+        if (gallery) {
+            images.forEach(src => {
+                const div = document.createElement("div");
+                div.className = "gallery-item";
+                const img = document.createElement("img");
+                img.src = src;
+                img.loading = "lazy";
+                div.appendChild(img);
+                gallery.appendChild(div);
+            });
+        }
+
+        // Видео (ваш путь)
+        const videos = [
+            { title: "Танец стихий", src: "Videos/Video1.mp4" }
+        ];
+        const videoGrid = document.getElementById("videoGrid");
+        if (videoGrid) {
+            videos.forEach(v => {
+                const card = document.createElement("div");
+                card.className = "video-card";
+                card.innerHTML = `<h3>📽️ ${v.title}</h3><video controls preload="metadata"><source src="${v.src}" type="video/mp4">Ваш браузер не поддерживает видео</video>`;
+                videoGrid.appendChild(card);
+            });
+        }
+
+        // Музыка
+        const tracks = [
+            { name: "Мелодия леса", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+            { name: "Зов дракона", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+            { name: "Танец огня", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" }
+        ];
+        const trackList = document.getElementById("trackList");
+        const audio = document.getElementById("globalAudio");
+        const nowPlayingSpan = document.getElementById("nowPlaying");
+        if (trackList) {
+            tracks.forEach(t => {
+                const div = document.createElement("div");
+                div.className = "track";
+                div.innerHTML = `<span>🎵 ${t.name}</span><button class="play-btn" data-url="${t.url}" data-name="${t.name}">▶</button>`;
+                trackList.appendChild(div);
+            });
+            document.querySelectorAll('.play-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const url = btn.getAttribute('data-url');
+                    const name = btn.getAttribute('data-name');
+                    if (url && audio) {
+                        audio.src = url;
+                        audio.play().catch(e => console.log);
+                        if (nowPlayingSpan) nowPlayingSpan.innerText = `Сейчас играет: ${name}`;
+                    }
+                });
+            });
+        }
+        if (audio) {
+            audio.addEventListener('ended', () => { if (nowPlayingSpan) nowPlayingSpan.innerText = ''; });
+        }
+    </script>
+</body>
+</html>
