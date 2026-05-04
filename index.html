@@ -2,32 +2,18 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>ComfyUI Artist | неон ⇢ подземелья (кривой переход)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ComfyUI Artist | горы + неон + DnD</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            min-height: 100vh;
-            background: linear-gradient(112deg, 
-                #020105 0%, 
-                #0b0a25 18%, 
-                #1c0e1a 32%,
-                #2d1a0f 48%,
-                #4a2e1a 70%,
-                #6b442a 88%,
-                #8b5e2c 100%);
-            background-attachment: fixed;
-            color: #e6e0d8;
-            font-family: system-ui, 'Segoe UI', 'Roboto', 'Georgia', serif;
+            background: linear-gradient(135deg, #0a1a2a, #1a2a1a, #2a1a0a);
+            color: #eeddcc;
+            font-family: system-ui, 'Segoe UI', serif;
             line-height: 1.5;
-            scroll-behavior: smooth;
+            min-height: 100vh;
+            position: relative;
         }
-
         body::before {
             content: "";
             position: fixed;
@@ -35,25 +21,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: repeating-linear-gradient(35deg, 
-                rgba(0,242,255,0.03) 0px, 
-                rgba(0,242,255,0.03) 40px,
-                rgba(255,45,149,0.02) 40px,
-                rgba(255,45,149,0.02) 80px,
-                rgba(255,180,70,0.04) 80px,
-                rgba(255,180,70,0.04) 120px);
-            pointer-events: none;
-            z-index: 0;
+            background-image: url('https://images.pexels.com/photos/1366919/mountain-lake-landscape-nature-1366919.jpg?auto=compress&cs=tinysrgb&w=1600');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            opacity: 0.3;
+            z-index: -1;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1.2rem;
-            position: relative;
-            z-index: 2;
-        }
-
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1.2rem; position: relative; z-index: 1; }
         .navbar {
             padding: 1rem 0;
             display: flex;
@@ -61,534 +36,309 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 1rem;
-            border-bottom: 1px solid rgba(0, 242, 255, 0.4);
-            background: rgba(3, 0, 5, 0.5);
-            backdrop-filter: blur(12px);
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
             position: sticky;
             top: 0;
-            z-index: 20;
+            z-index: 10;
+            border-radius: 0 0 20px 20px;
         }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #00f2ff, #ff2d95, #ffb347);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 1.3rem;
-            flex-wrap: wrap;
-        }
-
-        .nav-links a {
-            color: #ccddf8;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: 0.2s;
-        }
-
-        .nav-links a:hover {
-            color: #00f2ff;
-            text-shadow: 0 0 6px cyan;
-        }
-
-        .hero {
-            padding: 2rem 0 1rem 0;
-        }
-
-        .hero h1 {
-            font-size: 2.8rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ffffff, #00f2ff, #ff2d95);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            margin-bottom: 0.5rem;
-        }
-
-        .tagline {
-            font-size: 1.1rem;
-            margin-bottom: 1.2rem;
-            color: #c0d0f0;
-            border-left: 3px solid #00f2ff;
-            padding-left: 1rem;
-        }
-
-        .team-header {
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(8px);
-            border-radius: 2rem;
-            padding: 0.8rem 1.2rem;
-            margin: 1rem 0;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1rem;
-            border: 1px solid rgba(0,242,255,0.3);
-        }
-
-        .lead-specialist {
-            font-weight: 600;
-            background: linear-gradient(95deg, #00f2ff20, #ff2d9520);
-            padding: 0.3rem 1rem;
-            border-radius: 2rem;
-            font-size: 0.85rem;
-            border-left: 2px solid #00f2ff;
-        }
-
-        .partner-chips {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-        }
-
-        .partner-chip {
-            background: rgba(0,0,0,0.5);
-            border: 1px solid rgba(255, 100, 150, 0.5);
-            border-radius: 2rem;
-            padding: 0.2rem 0.8rem;
-            font-size: 0.8rem;
-            transition: 0.2s;
-        }
-
-        .partner-chip:hover {
-            border-color: #ffb347;
-            background: rgba(255, 180, 70, 0.2);
-        }
-
-        .partner-chip a {
-            color: #ffd966;
-            text-decoration: none;
-        }
-
-        .partner-chip a:hover {
-            text-decoration: underline;
-        }
-
-        .btn-group {
-            margin: 1.5rem 0 2rem;
-        }
-
-        .btn {
-            display: inline-block;
-            background: rgba(0,0,0,0.5);
-            border: 1px solid #00f2ff;
-            padding: 0.6rem 1.4rem;
-            border-radius: 2rem;
-            color: #b0f0ff;
-            font-weight: 500;
-            text-decoration: none;
-            margin-right: 0.8rem;
-            margin-bottom: 0.6rem;
-            transition: 0.2s;
-        }
-
-        .btn-primary {
-            background: linear-gradient(95deg, #00f2ff, #0088ff);
-            border: none;
-            color: #010105;
-            font-weight: bold;
-            box-shadow: 0 0 8px cyan;
-        }
-
-        .btn-primary:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 16px cyan;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            background: rgba(0,242,255,0.2);
-        }
-
-        section {
-            padding: 2.5rem 0;
-            border-top: 1px solid rgba(255,180,70,0.3);
-        }
-
-        h2 {
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin-bottom: 1.2rem;
-            display: inline-block;
-            background: linear-gradient(135deg, #fff0c0, #ffb347);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            border-left: 4px solid #ffb347;
-            padding-left: 0.8rem;
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .gallery-item {
-            aspect-ratio: 1/1;
-            background: #1e1a14;
-            border-radius: 1rem;
-            overflow: hidden;
-            border: 1px solid #b87c3a;
-            transition: 0.2s;
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .gallery-item:hover {
-            transform: scale(1.02);
-            border-color: #ffb347;
-            box-shadow: 0 0 12px #dd882e;
-        }
-
-        .video-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.2rem;
-        }
-
-        .video-card {
-            background: rgba(30, 20, 12, 0.6);
-            backdrop-filter: blur(4px);
-            border-radius: 1rem;
-            border: 1px solid #b87c3a;
-            padding: 0.8rem;
-        }
-
-        .video-card video {
-            width: 100%;
-            border-radius: 0.7rem;
-        }
-
-        .music-player {
-            background: rgba(0,0,0,0.4);
-            backdrop-filter: blur(8px);
-            border-radius: 1.5rem;
-            padding: 1.2rem;
-            border: 1px solid #e0a76a;
-        }
-
-        .track-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.7rem;
-        }
-
-        .track {
-            background: rgba(255,215,160,0.1);
-            border-radius: 3rem;
-            padding: 0.5rem 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .play-btn {
-            background: #c6893b;
-            border: none;
-            padding: 0.3rem 1rem;
-            border-radius: 2rem;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        #globalAudio {
-            width: 100%;
-            margin-top: 1rem;
-        }
-
-        .now-playing {
-            margin-top: 0.5rem;
-            font-size: 0.8rem;
-            color: #f3cd8b;
-            text-align: center;
-        }
-
-        .partners-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            justify-content: flex-start;
-            margin-top: 1rem;
-        }
-
-        .partner-card {
-            background: rgba(0,0,0,0.5);
-            border: 1px solid #b87c3a;
-            border-radius: 1.5rem;
-            padding: 0.6rem 1.2rem;
-            text-align: center;
-            min-width: 140px;
-            backdrop-filter: blur(4px);
-        }
-
-        .partner-card .partner-name {
-            font-weight: 600;
-            font-size: 0.9rem;
-            margin-bottom: 0.3rem;
-        }
-
-        .partner-card .partner-name a {
-            color: #ffd966;
-            text-decoration: none;
-        }
-
-        .partner-card .partner-name a:hover {
-            text-decoration: underline;
-        }
-
-        .partner-role {
-            font-size: 0.7rem;
-            color: #e2bc7c;
-            margin-bottom: 0.2rem;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin: 1.5rem 0;
-        }
-
-        .social-links a {
-            background: #2d241a;
-            padding: 0.4rem 1rem;
-            border-radius: 2rem;
-            text-decoration: none;
-            color: #ecd99b;
-            font-size: 0.85rem;
-            border: 1px solid #a67c4a;
-        }
-
-        footer {
-            text-align: center;
-            padding: 1.5rem;
-            border-top: 1px solid #a77746;
-            color: #c0a070;
-            font-size: 0.75rem;
-        }
-
-        @media (max-width: 700px) {
-            .hero h1 { font-size: 2rem; }
-            .team-header { flex-direction: column; align-items: stretch; text-align: center; }
-            .partner-chips { justify-content: center; }
-            .nav-links { justify-content: center; }
-            .btn-group { text-align: center; }
-            .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
-        }
+        .logo { font-size: 1.5rem; font-weight: bold; background: linear-gradient(135deg, #00f2ff, #ff2d95); background-clip: text; color: transparent; }
+        .nav-links { display: flex; gap: 1.3rem; flex-wrap: wrap; }
+        .nav-links a { color: #ccddf8; text-decoration: none; }
+        .hero { padding: 2rem 0; }
+        .hero h1 { font-size: 2.8rem; background: linear-gradient(135deg, #fff, #00f2ff, #ff2d95); background-clip: text; color: transparent; }
+        .team-header { background: rgba(0,0,0,0.5); border-radius: 2rem; padding: 0.8rem 1.2rem; margin: 1rem 0; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; }
+        .lead-specialist { font-weight: bold; background: #00f2ff20; padding: 0.3rem 1rem; border-radius: 2rem; }
+        .partner-chips { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+        .partner-chip { background: rgba(0,0,0,0.5); border-radius: 2rem; padding: 0.2rem 0.8rem; }
+        .partner-chip a { color: #ffd966; text-decoration: none; }
+        .btn-group { margin: 1rem 0; }
+        .btn { display: inline-block; background: rgba(0,0,0,0.5); border: 1px solid #00f2ff; padding: 0.6rem 1.4rem; border-radius: 2rem; color: #b0f0ff; text-decoration: none; margin-right: 0.8rem; }
+        .btn-primary { background: linear-gradient(95deg, #00f2ff, #0088ff); color: #010105; }
+        section { padding: 2rem 0; border-top: 1px solid #ffb34733; }
+        h2 { font-size: 1.8rem; margin-bottom: 1rem; border-left: 4px solid #ffb347; padding-left: 0.8rem; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; }
+        .gallery-item { aspect-ratio: 1; background: #1e1a14; border-radius: 1rem; overflow: hidden; border: 1px solid #b87c3a; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+        .video-card { background: rgba(0,0,0,0.5); border-radius: 1rem; padding: 0.8rem; }
+        video { width: 100%; border-radius: 0.7rem; }
+        .music-player { background: rgba(0,0,0,0.5); border-radius: 1.5rem; padding: 1rem; }
+        .track { background: #2d241a; border-radius: 3rem; padding: 0.5rem 1rem; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+        .play-btn { background: #c6893b; border: none; padding: 0.3rem 1rem; border-radius: 2rem; cursor: pointer; color: white; }
+        .partners-grid { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem; }
+        .partner-card { background: rgba(0,0,0,0.5); border-radius: 1rem; padding: 0.6rem 1rem; text-align: center; min-width: 130px; }
+        .partner-card a { color: #ffd966; text-decoration: none; }
+        .social-links { display: flex; gap: 1rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
+        .social-links a { background: #2d241a; padding: 0.4rem 1rem; border-radius: 2rem; text-decoration: none; color: #ecd99b; }
+        footer { text-align: center; padding: 1rem; border-top: 1px solid #a77746; margin-top: 2rem; }
+        @media (max-width: 700px) { .hero h1 { font-size: 2rem; } .team-header { flex-direction: column; } }
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <nav class="navbar">
-            <div class="logo">✨ ComfyUI Artist ✨</div>
-            <div class="nav-links">
-                <a href="#gallery">Работы</a>
-                <a href="#video">Видео</a>
-                <a href="#music">Музыка</a>
-                <a href="#contact">Контакты</a>
-            </div>
-        </nav>
+  <!-- Магический туман -->
+<div class="fog">
+    <div class="fog-layer"></div>
+    <div class="fog-layer-right"></div>
+</div>
+<div class="fog-bottom"></div><script>// ================== DM ОРАКУЛ: d20 + 80+ вариантов ==================
+(function() {
+    window.addEventListener('DOMContentLoaded', function() {
+        const dmBtn = document.getElementById('dmOracleBtn');
+        const dmResultDiv = document.getElementById('dmResult');
+        
+        if (!dmBtn || !dmResultDiv) return;
 
-        <div class="hero">
-            <h1>ComfyUI Artist</h1>
-            <div class="tagline">генеративное искусство · AI · фото | видео | музыка</div>
+        const heroes = ["Магор Теневой Ассасин", "Микаил Рыцарь-по-праву", "Азраил Чёрный Рыцарь", "Адаман Друид", "Иса Бард"];
+        
+        function getRandomHero() {
+            return heroes[Math.floor(Math.random() * heroes.length)];
+        }
+
+        const predictions = {
+            1: [
+                `💀 КРИТПРОВАЛ (1): ${getRandomHero()} попытался поймать твой меч, но поймал лезвие. Теперь два раненых.`,
+                `💀 КРИТПРОВАЛ (1): ${getRandomHero()} закричал «Берегись!», ты испугался и уронил штаны. Враг в замешательстве.`,
+                `💀 КРИТПРОВАЛ (1): Ты хотел эффектно войти в бой, но споткнулся о плащ ${getRandomHero()}. Приземление на лицо.`,
+                `💀 КРИТПРОВАЛ (1): Ты попытался выпить зелье силы, но ${getRandomHero()} выбил его — это была отрава. Спасибо, герой.`
+            ],
+            2: [
+                `💀 ПРОВАЛ (2): ${getRandomHero()} дал тебе карту, но ты держал её вверх ногами и пришёл к дракону в логово.`,
+                `💀 ПРОВАЛ (2): Ты кинул дымовую шашку, но ветер дунул в лицо. Теперь кашляет вся твоя группа. ${getRandomHero()} недоволен.`,
+                `💀 ПРОВАЛ (2): ${getRandomHero()} заслонил тебя от удара, но получил сам. Ты чувствуешь вину.`,
+                `💀 ПРОВАЛ (2): Ты пытался повторить коронный удар ${getRandomHero()}, но порвал связки. Теперь ты хромаешь.`
+            ],
+            3: [
+                `💀 ПРОВАЛ (3): ${getRandomHero()} заорал «Ложись!», а ты подпрыгнул. Над головой пролетел топор. Ещё чуть-чуть...`,
+                `💀 ПРОВАЛ (3): Твой лук лопнул при натяжении. ${getRandomHero()} одалживает свой, но шепчет «Потом вернёшь».`,
+                `💀 ПРОВАЛ (3): Ты выбежал из укрытия раньше команды ${getRandomHero()}. Враги заметили всех.`,
+                `💀 ПРОВАЛ (3): Ты спутал зелье лечения с маслом для обуви. Теперь твои сапоги блестят, а раны нет.`
+            ],
+            4: [
+                `❌ ПРОВАЛ (4): ${getRandomHero()} хотел дать тебе волшебный амулет, но выронил его в лаву. Прощай, артефакт.`,
+                `❌ ПРОВАЛ (4): Ты применил технику ${getRandomHero()}, но забыл снять перчатки. Пальцы свело судорогой.`,
+                `❌ ПРОВАЛ (4): Ты целился во врага, но попал в шлем ${getRandomHero()}. Тот снял его и сказал: «Ещё раз — убью».`,
+                `❌ ПРОВАЛ (4): Ты провалился сквозь прогнивший пол. ${getRandomHero()} смеётся сверху. Обидно.`
+            ],
+            5: [
+                `❌ НЕУДАЧА (5): ${getRandomHero()} прикрывал тебя, но ты выскочил прямо под стрелу. Хорошо, что она была тупая.`,
+                `❌ НЕУДАЧА (5): Ты попытался незаметно пройти мимо врага, но ${getRandomHero()} чихнул. Засада сорвана.`,
+                `❌ НЕУДАЧА (5): Ты запутался в мантии ${getRandomHero()} и упал. Битва превратилась в цирк.`,
+                `❌ НЕУДАЧА (5): Ты швырнул камень в врага, но попал в колено ${getRandomHero()}. Боец временно выведен из строя.`
+            ],
+            6: [
+                `❌ НЕУДАЧА (6): ${getRandomHero()} позвал тебя за собой, но ты свернул не туда и забрёл в паучье гнездо.`,
+                `❌ НЕУДАЧА (6): Ты применил заклинание ${getRandomHero()}, но перепутал ингредиенты — вместо огня пошёл дым.`,
+                `❌ НЕУДАЧА (6): ${getRandomHero()} дал тебе знак атаковать, но ты засмотрелся на бабочку. Момент упущен.`,
+                `❌ НЕУДАЧА (6): Твоя стрела застряла в дереве. ${getRandomHero()} молча достаёт свою и стреляет за тебя.`
+            ],
+            7: [
+                `😐 НЕПЛОХО (7): ${getRandomHero()} похлопал тебя по плечу: «Живой — и ладно». Так себе поддержка.`,
+                `😐 НЕПЛОХО (7): Твой удар отбросил врага, но ты поскользнулся и сел в лужу. Героически.`,
+                `😐 НЕПЛОХО (7): ${getRandomHero()} научил тебя новому блоку, но ты делаешь его слишком медленно.`,
+                `😐 НЕПЛОХО (7): Ты сломал меч, но добил врага обломком. ${getRandomHero()} молча кивает.`
+            ],
+            8: [
+                `😐 НЕПЛОХО (8): ${getRandomHero()} сказал «Терпимо». Для него это высокая оценка.`,
+                `😐 НЕПЛОХО (8): Ты попал в цель, но танцевал победный танец и потерял равновесие.`,
+                `😐 НЕПЛОХО (8): ${getRandomHero()} прикрыл тебя, но получил лёгкую царапину. Теперь ты должен ему.`,
+                `😐 НЕПЛОХО (8): Ты увернулся от удара, но отпрыгнул прямо в крапиву. Сыпь обеспечена.`
+            ],
+            9: [
+                `👍 УСПЕХ (9): ${getRandomHero()} дал тебе ценный совет перед боем. Ты использовал его и попал в цель.`,
+                `👍 УСПЕХ (9): Ты ударил врага ногой, но попал по щиту ${getRandomHero()}. Тот молча смотрит.`,
+                `👍 УСПЕХ (9): Ты вовремя заметил ловушку благодаря крику ${getRandomHero()}. Спасён.`,
+                `👍 УСПЕХ (9): Твой случайный удар сбил шлем с врага. Тот растерялся. Тактика хаоса работает.`
+            ],
+            10: [
+                `👍 УСПЕХ (10): ${getRandomHero()} закричал «Бей!», и ты ударил не глядя. Попал! Чудо.`,
+                `👍 УСПЕХ (10): Ты сломал врагу нос локтем. ${getRandomHero()} сказал: «Грязно, но эффективно».`,
+                `👍 УСПЕХ (10): Ты вовремя пригнулся из-за толчка ${getRandomHero()}. Над головой просвистел топор.`,
+                `👍 УСПЕХ (10): Ты использовал грязный трюк, которому научился у ${getRandomHero()}. Враг в ярости.`
+            ],
+            11: [
+                `⭐ ХОРОШО (11): ${getRandomHero()} сказал: «Неплохо! Ещё пару тренировок — и ты меня догонишь».`,
+                `⭐ ХОРОШО (11): Твой удар был настолько точным, что ${getRandomHero()} присвистнул.`,
+                `⭐ ХОРОШО (11): Ты применил связку приёмов, которую показал ${getRandomHero()}. Получилось гладко.`,
+                `⭐ ХОРОШО (11): Ты отбил стрелу щитом и попал врагу в ногу. Рикошет — это красиво.`
+            ],
+            12: [
+                `⭐ ХОРОШО (12): ${getRandomHero()} кивнул тебе после боя. Молчаливое одобрение.`,
+                `⭐ ХОРОШО (12): Ты зашёл врагу за спину, пока ${getRandomHero()} отвлекал. Работа в команде!`,
+                `⭐ ХОРОШО (12): Твоя контратака была безупречна. ${getRandomHero()} хлопнул в ладоши.`,
+                `⭐ ХОРОШО (12): Ты спас ${getRandomHero()} от стрелы, подставив щит. Теперь он твой должник.`
+            ],
+            13: [
+                `✨ ОТЛИЧНО (13): ${getRandomHero()} сказал: «Ты меня удивил. Редкий случай».`,
+                `✨ ОТЛИЧНО (13): Твой манёвр заставил врага ошибиться. ${getRandomHero()} подхватил и добил.`,
+                `✨ ОТЛИЧНО (13): Ты применил приём, которому ${getRandomHero()} научил тебя вчера. Идеально.`,
+                `✨ ОТЛИЧНО (13): Ты выбил оружие из рук врага красивым подкатом. ${getRandomHero()} улыбнулся.`
+            ],
+            14: [
+                `✨ ОТЛИЧНО (14): ${getRandomHero()} торжественно пожал тебе руку. Это признание.`,
+                `✨ ОТЛИЧНО (14): Твой удар разрубил вражеский щит. ${getRandomHero()} присвистнул.`,
+                `✨ ОТЛИЧНО (14): Ты попал в цель с закрытыми глазами. ${getRandomHero()} сказал: «Магия?»`,
+                `✨ ОТЛИЧНО (14): Ты отразил три атаки подряд. ${getRandomHero()} аплодирует.`
+            ],
+            15: [
+                `🔥 ВОСХИТИТЕЛЬНО (15): ${getRandomHero()} встал на колено и сказал: «Ты достоин».`,
+                `🔥 ВОСХИТИТЕЛЬНО (15): Твой удар был настолько силён, что враг отлетел к стене. ${getRandomHero()} в шоке.`,
+                `🔥 ВОСХИТИТЕЛЬНО (15): Ты спас всю группу, заметив засаду. ${getRandomHero()} говорит: «Я горжусь».`,
+                `🔥 ВОСХИТИТЕЛЬНО (15): Ты победил врага его же оружием. ${getRandomHero()} смеётся.`
+            ],
+            16: [
+                `🔥 ЭПИЧНО (16): ${getRandomHero()} сказал: «Теперь я знаю, с кем идти в разведку».`,
+                `🔥 ЭПИЧНО (16): Твой выстрел попал в яблоко, которое враг нёс на голове. Точно в цель!`,
+                `🔥 ЭПИЧНО (16): Ты разоружил врага молниеносным движением. ${getRandomHero()} завидует.`,
+                `🔥 ЭПИЧНО (16): Ты сделал идеальный кувырок через врага и ударил со спины. Красота.`
+            ],
+            17: [
+                `⚡ НЕВЕРОЯТНО (17): ${getRandomHero()} попросил тебя научить его этому приёму. Ты — учитель легенды!`,
+                `⚡ НЕВЕРОЯТНО (17): Ты убил двух врагов одним ударом. ${getRandomHero()} снимает шляпу.`,
+                `⚡ НЕВЕРОЯТНО (17): Ты предугадал манёвр врага и наказал его. ${getRandomHero()} в восторге.`,
+                `⚡ НЕВЕРОЯТНО (17): Твоя магия создала щит, который спас всех. ${getRandomHero()} называет тебя героем.`
+            ],
+            18: [
+                `💥 БЕСПРИМЕРНО (18): ${getRandomHero()} подарил тебе свой личный амулет. Ты избранный.`,
+                `💥 БЕСПРИМЕРНО (18): Ты в одиночку задержал отряд врагов, пока другие уходили. ${getRandomHero()} кланяется.`,
+                `💥 БЕСПРИМЕРНО (18): Твой критический удар разрушил вражеский катапульту. ${getRandomHero()} в шоке.`,
+                `💥 БЕСПРИМЕРНО (18): Ты поймал стрелу в воздухе и метнул обратно. ${getRandomHero()} не верит глазам.`
+            ],
+            19: [
+                `🎉 ЛЕГЕНДАРНО (19): ${getRandomHero()} говорит: «Твоё имя будут помнить вечно».`,
+                `🎉 ЛЕГЕНДАРНО (19): Ты победил врага, даже не вынимая меч — одним взглядом. ${getRandomHero()} в трепете.`,
+                `🎉 ЛЕГЕНДАРНО (19): Ты призвал духа предка, который помог в битве. ${getRandomHero()} просит автограф.`,
+                `🎉 ЛЕГЕНДАРНО (19): Ты спас ${getRandomHero()} от верной смерти. Теперь он твой вечный должник.`
+            ],
+            20: [
+                `🌈 КРИТИЧЕСКИЙ УСПЕХ (20): ${getRandomHero()} падает на колени: «Я твой слуга отныне».`,
+                `🌈 КРИТИЧЕСКИЙ УСПЕХ (20): Ты разрубил молнию пополам. ${getRandomHero()} кричит: «Божество среди нас!»`,
+                `🌈 КРИТИЧЕСКИЙ УСПЕХ (20): Твоя магия воскресила павшего союзника. ${getRandomHero()} плачет от счастья.`,
+                `🌈 КРИТИЧЕСКИЙ УСПЕХ (20): Ты заставил дракона отступить одним взглядом. ${getRandomHero()} целует тебе руку.`
+            ]
+        };
+
+        function getRandomPrediction() {
+            const roll = Math.floor(Math.random() * 20) + 1; // Строго 1-20
+            const options = predictions[roll];
+            const randomIndex = Math.floor(Math.random() * options.length);
+            let text = options[randomIndex];
             
-            <div class="team-header" id="teamHeader"></div>
-
-            <div class="btn-group">
-                <a href="#gallery" class="btn btn-primary">Смотреть работы</a>
-                <a href="#contact" class="btn">Связаться</a>
-            </div>
-        </div>
-
-        <section id="gallery">
-            <h2>🖼️ Изображения</h2>
-            <div class="gallery-grid" id="imageGallery"></div>
-            <p style="font-size:0.8rem; margin-top:0.5rem; opacity:0.7;">* замените ссылки в массиве images на свои генерации</p>
-        </section>
-
-        <section id="video">
-            <h2>🎬 Видео (скоро)</h2>
-            <div class="video-grid" id="videoGrid"></div>
-            <p style="margin-top:0.8rem; opacity:0.7;">После покупки видеокарты добавлю диффузионные 4K-ролики</p>
-        </section>
-
-        <section id="music">
-            <h2>🎧 Генеративная музыка</h2>
-            <div class="music-player">
-                <div class="track-list" id="trackList"></div>
-                <audio id="globalAudio" controls preload="metadata"><source src="" type="audio/mpeg"></audio>
-                <div class="now-playing" id="nowPlaying"></div>
-            </div>
-        </section>
-
-        <section id="partners">
-            <h2>⚔️ Наши союзники</h2>
-            <div class="partners-grid" id="partnersGrid"></div>
-        </section>
-
-        <section id="contact">
-            <h2>📬 Контакты</h2>
-            <div class="social-links">
-                <a href="#">Instagram</a>
-                <a href="#">Telegram</a>
-                <a href="#">GitHub</a>
-                <a href="#">Email</a>
-            </div>
-        </section>
-    </div>
-
-    <footer>
-        <p>© 2026 ComfyUI Artist — неон и древние заклинания. Партнёры: Евлоев А.А., Иса Бард, Адаман Друид, Азраил Чёрный Рыцарь, Микаил Рыцарь-по-праву.</p>
-    </footer>
-
-    <script>
-        // Данные
-        const specialist = { name: "Евлоев А.А.", role: "Ведущий специалист", tg: null };
-        const partnersList = [
-            { name: "Иса Бард", role: "Мастер звука", tg: "prazdniknl" },
-            { name: "Адаман Друид", role: "Хранитель лесов", tg: "AdamM666" },
-            { name: "Азраил Чёрный Рыцарь", role: "Страж миров", tg: "AdamM666" },
-            { name: "Микаил Рыцарь-по-праву", role: "Защитник кода", tg: "MicaelMich" }
-        ];
-
-        // Заполняем teamHeader (шапка)
-        const teamHeader = document.getElementById("teamHeader");
-        if (teamHeader) {
-            const leadDiv = document.createElement("div");
-            leadDiv.className = "lead-specialist";
-            leadDiv.textContent = `⭐ ${specialist.name}`;
-            teamHeader.appendChild(leadDiv);
+            // Замена случайного персонажа
+            while (text.includes('${getRandomHero()}')) {
+                text = text.replace('${getRandomHero()}', getRandomHero());
+            }
             
-            const chipsDiv = document.createElement("div");
-            chipsDiv.className = "partner-chips";
-            partnersList.forEach(p => {
-                const chip = document.createElement("div");
-                chip.className = "partner-chip";
-                if (p.tg) {
-                    const link = document.createElement("a");
-                    link.href = `https://t.me/${p.tg}`;
-                    link.target = "_blank";
-                    link.textContent = p.name;
-                    chip.appendChild(link);
-                } else {
-                    chip.textContent = p.name;
+            return { roll, text };
+        }
+
+        dmBtn.addEventListener('click', function() {
+            const { roll, text } = getRandomPrediction();
+            
+            let rollClass = '';
+            let critMark = '';
+            
+            if (roll === 20) {
+                rollClass = 'crit-success';
+                critMark = '🌈 КРИТИЧЕСКИЙ УСПЕХ! 🌈';
+            } else if (roll >= 19) {
+                rollClass = 'crit-success';
+                critMark = '🎉 ЛЕГЕНДАРНО! 🎉';
+            } else if (roll >= 17) {
+                rollClass = 'crit-success';
+                critMark = '⚡ НЕВЕРОЯТНО! ⚡';
+            } else if (roll >= 15) {
+                critMark = '🔥 ВОСХИТИТЕЛЬНО! 🔥';
+            } else if (roll <= 3) {
+                rollClass = 'crit-fail';
+                critMark = '💀 КРИТИЧЕСКИЙ ПРОВАЛ! 💀';
+            } else if (roll <= 6) {
+                rollClass = 'crit-fail';
+                critMark = '❌ ПРОВАЛ ❌';
+            }
+            
+            dmResultDiv.innerHTML = `
+                <div class="dice-roll">
+                    🎲 Выпало: <span class="dice-number ${rollClass}">${roll}</span> ${critMark ? `<span style="font-size:1rem;">${critMark}</span>` : ''}
+                </div>
+                <div class="prediction-text">${text}</div>
+            `;
+        });
+    });
+})();// Модальное окно + отправка формы на adsay2020@list.ru
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('contactModal');
+    const contactBtn = document.querySelector('.btn-group .btn:last-child');
+    const closeBtn = document.querySelector('.close-modal');
+
+    // Открытие окна
+    if (contactBtn && modal) {
+        contactBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            modal.style.display = 'flex';
+        });
+    }
+
+    // Закрытие по крестику
+    if (closeBtn && modal) {
+        closeBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+    }
+
+    // Закрытие по клику вне окна
+    if (modal) {
+        window.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    }
+
+    // Отправка формы на твою почту
+    const form = document.getElementById('contactForm');
+    const statusDiv = document.getElementById('formStatus');
+
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('userName').value;
+            const email = document.getElementById('userEmail').value;
+            const message = document.getElementById('userMessage').value;
+
+            if (!name || !email || !message) {
+                if (statusDiv) {
+                    statusDiv.innerHTML = '❌ Заполните все поля!';
+                    statusDiv.style.color = '#ff6666';
                 }
-                chipsDiv.appendChild(chip);
-            });
-            teamHeader.appendChild(chipsDiv);
-        }
+                return;
+            }
 
-        // Заполняем секцию "Наши союзники" карточками
-        const partnersGrid = document.getElementById("partnersGrid");
-        if (partnersGrid) {
-            const allForCards = [specialist, ...partnersList];
-            allForCards.forEach(p => {
-                const card = document.createElement("div");
-                card.className = "partner-card";
-                const nameDiv = document.createElement("div");
-                nameDiv.className = "partner-name";
-                if (p.tg) {
-                    const link = document.createElement("a");
-                    link.href = `https://t.me/${p.tg}`;
-                    link.target = "_blank";
-                    link.textContent = p.name;
-                    nameDiv.appendChild(link);
-                } else {
-                    nameDiv.textContent = p.name;
-                }
-                const roleDiv = document.createElement("div");
-                roleDiv.className = "partner-role";
-                roleDiv.textContent = p.role;
-                card.appendChild(nameDiv);
-                card.appendChild(roleDiv);
-                partnersGrid.appendChild(card);
-            });
-        }
+            if (statusDiv) {
+                statusDiv.innerHTML = '🕯️ Отправка...';
+                statusDiv.style.color = '#ffb347';
+            }
 
-        // Галерея (пример)
-        const images = [
-            "https://picsum.photos/id/1015/400/400",
-            "https://picsum.photos/id/104/400/400",
-            "https://picsum.photos/id/169/400/400",
-            "https://picsum.photos/id/155/400/400",
-            "https://picsum.photos/id/29/400/400",
-            "https://picsum.photos/id/96/400/400"
-        ];
-        const gallery = document.getElementById("imageGallery");
-        if (gallery) {
-            images.forEach(src => {
-                const div = document.createElement("div");
-                div.className = "gallery-item";
-                const img = document.createElement("img");
-                img.src = src;
-                img.loading = "lazy";
-                div.appendChild(img);
-                gallery.appendChild(div);
-            });
-        }
-
-        // Видео (ваш путь)
-        const videos = [
-            { title: "Танец стихий", src: "Videos/Video1.mp4" }
-        ];
-        const videoGrid = document.getElementById("videoGrid");
-        if (videoGrid) {
-            videos.forEach(v => {
-                const card = document.createElement("div");
-                card.className = "video-card";
-                card.innerHTML = `<h3>📽️ ${v.title}</h3><video controls preload="metadata"><source src="${v.src}" type="video/mp4">Ваш браузер не поддерживает видео</video>`;
-                videoGrid.appendChild(card);
-            });
-        }
-
-        // Музыка
-        const tracks = [
-            { name: "Мелодия леса", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-            { name: "Зов дракона", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
-            { name: "Танец огня", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" }
-        ];
-        const trackList = document.getElementById("trackList");
-        const audio = document.getElementById("globalAudio");
-        const nowPlayingSpan = document.getElementById("nowPlaying");
-        if (trackList) {
-            tracks.forEach(t => {
-                const div = document.createElement("div");
-                div.className = "track";
-                div.innerHTML = `<span>🎵 ${t.name}</span><button class="play-btn" data-url="${t.url}" data-name="${t.name}">▶</button>`;
-                trackList.appendChild(div);
-            });
-            document.querySelectorAll('.play-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const url = btn.getAttribute('data-url');
-                    const name = btn.getAttribute('data-name');
-                    if (url && audio) {
-                        audio.src = url;
-                        audio.play().catch(e => console.log);
-                        if (nowPlayingSpan) nowPlayingSpan.innerText = `Сейчас играет: ${name}`;
-                    }
-                });
-            });
-        }
-        if (audio) {
-            audio.addEventListener('ended', () => { if (nowPlayingSpan) nowPlayingSpan.innerText = ''; });
-        }
-    </script>
-</body>
-</html>
+            // ТВОЙ EMAIL: adsay2020@list.ru
+            fetch('https://formsubmit.co/ajax/adsay2020@list.ru', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    message: message,
+                    _subject: `ComfyUI Artist - новое сообщение от ${name}`
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (statusDiv) {
+                    statusDiv.innerHTML = '✅ Послание доставлено! Я скоро отвечу.';
+                    statusDiv.style.color = '#00f2ff';
+              
